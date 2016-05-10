@@ -39,7 +39,7 @@ test-runner:run() {
     local -A opts
     local -a args
 
-    opts:parse opts args -v -A -O:: ${_test_runner_custom_opts[@]:-} -- "${@}"
+    opts:parse opts args -v -A -O ${_test_runner_custom_opts[@]:-} -- "${@}"
 
     for custom_opt in ${_test_runner_custom_opts[@]:-}; do
         if [ "${opts[$custom_opt]:-}" ]; then
@@ -47,17 +47,23 @@ test-runner:run() {
         fi
     done
 
-    test-runner:handle-args "${args[@]}"
+    local run_flags=()
+    if [ "${opts[-O]:-}" ]; then
+        if [ ${#args[@]} -gt 1 ]; then
+            run_flags=(-O "${args[1]}")
+
+            unset args[1]
+        else
+            run_flags=(-O)
+        fi
+    else
+        run_flags=(-A)
+    fi
+
+    test-runner:handle-args "${args[@]:-}"
 
     if [ "${opts[-v]:-}" ]; then
         tests:set-verbose "${opts[-v]}"
-    fi
-
-    local run_flags=()
-    if [ "${opts[-O]+unset}" ]; then
-        run_flags=(-O "${opts[-O]}")
-    else
-        run_flags=(-A)
     fi
 
     tests:main \
