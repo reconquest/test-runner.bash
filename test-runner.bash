@@ -54,7 +54,7 @@ test-runner:run() {
     fi
 
     local run_flags=()
-    if [ "${opts[-O]:-}" ]; then
+    if [ "${opts[-O]+unset}" ]; then
         run_flags=(-O "${opts[-O]}")
     else
         run_flags=(-A)
