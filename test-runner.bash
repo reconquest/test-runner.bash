@@ -2,10 +2,9 @@ _base_dir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 source $_base_dir/vendor/github.com/reconquest/import.bash/import.bash
 
 import github.com/reconquest/opts
-import github.com/reconquest/tests.sh
 
 
-_test_runner_local_setup=tests/local-setup.sh
+_test_runner_local_setup=tests/setup.sh
 _test_runner_testcases_dir=tests/testcases
 _test_runner_custom_opts=()
 
@@ -66,8 +65,12 @@ test-runner:run() {
         tests:set-verbose "${opts[-v]}"
     fi
 
-    tests:main \
-        -d "$_test_runner_testcases_dir" \
-        -s "$_test_runner_local_setup" \
-        "${run_flags[@]}"
+    (
+        import github.com/reconquest/tests.sh
+
+        tests:main \
+            -d "$_test_runner_testcases_dir" \
+            -s "$_test_runner_local_setup" \
+            "${run_flags[@]}"
+    )
 }

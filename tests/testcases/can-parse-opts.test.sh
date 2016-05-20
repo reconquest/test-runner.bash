@@ -14,7 +14,7 @@ test-runner:handle-opts() {
     esac
 }
 
-tests:put tests/local-setup.sh </dev/null
+tests:put tests/setup.sh </dev/null
 tests:put tests/testcases/noop.test.sh </dev/null
 
 test-runner:set-custom-opts --arg1 --arg2:
