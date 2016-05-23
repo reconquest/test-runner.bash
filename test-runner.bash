@@ -60,13 +60,12 @@ test-runner:run() {
     fi
 
     test-runner:handle-args "${args[@]:-}"
-
-    if [ "${opts[-v]:-}" ]; then
-        tests:set-verbose "${opts[-v]}"
-    fi
-
     (
         import github.com/reconquest/tests.sh
+
+        if [ "${opts[-v]:-}" ]; then
+            tests:set-verbose "${opts[-v]}"
+        fi
 
         tests:main \
             -d "$_test_runner_testcases_dir" \
