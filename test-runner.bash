@@ -5,6 +5,7 @@ import github.com/reconquest/opts
 
 
 _test_runner_local_setup=tests/setup.sh
+_test_runner_local_teardown=tests/teardown.sh
 _test_runner_testcases_dir=tests/testcases
 _test_runner_custom_opts=()
 
@@ -33,6 +34,10 @@ test-runner:set-local-setup() {
     _test_runner_local_setup=$1
 }
 
+
+test-runner:set-local-teardown() {
+    _test_runner_local_teardown=$1
+}
 
 test-runner:run() {
     local -A opts
@@ -70,6 +75,7 @@ test-runner:run() {
         tests:main \
             -d "$_test_runner_testcases_dir" \
             -s "$_test_runner_local_setup" \
+            -t "$_test_runner_local_teardown" \
             "${run_flags[@]}"
     )
 }
