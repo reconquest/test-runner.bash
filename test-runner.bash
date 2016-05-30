@@ -47,8 +47,11 @@ test-runner:run() {
         -h --help -v -A -O ${_test_runner_custom_opts[@]:-} -- "${@}"
 
     for custom_opt in ${_test_runner_custom_opts[@]:-}; do
-        if [ "${opts[$custom_opt]:-}" ]; then
-            test-runner:handle-custom-opt "$custom_opt" "${opts[$custom_opt]}"
+        local custom_opt_name="${custom_opt//:}"
+
+        if [ "${opts[$custom_opt_name]:-}" ]; then
+            test-runner:handle-custom-opt "$custom_opt_name" \
+                "${opts[$custom_opt_name]}"
         fi
     done
 
@@ -77,6 +80,7 @@ test-runner:run() {
         fi
 
         tests:main \
+            -a \
             -d "$_test_runner_testcases_dir" \
             -s "$_test_runner_local_setup" \
             -t "$_test_runner_local_teardown" \
