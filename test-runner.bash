@@ -19,6 +19,10 @@ test-runner:handle-args() {
     :
 }
 
+test-runner:progress() {
+    :
+}
+
 
 test-runner:set-custom-opts() {
     _test_runner_custom_opts=${@}
@@ -78,6 +82,9 @@ test-runner:run() {
         if [ "${opts[-v]:-}" ]; then
             tests:set-verbose "${opts[-v]}"
         fi
+
+        ( tail -f $_tests_one_stdout $_tests_one_stderr 2>/dev/null \
+            | test-runner:progress ) &
 
         tests:main \
             -a \
