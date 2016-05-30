@@ -43,7 +43,8 @@ test-runner:run() {
     local -A opts
     local -a args
 
-    opts:parse opts args -v -A -O ${_test_runner_custom_opts[@]:-} -- "${@}"
+    opts:parse opts args \
+        -h --help -v -A -O ${_test_runner_custom_opts[@]:-} -- "${@}"
 
     for custom_opt in ${_test_runner_custom_opts[@]:-}; do
         if [ "${opts[$custom_opt]:-}" ]; then
@@ -52,7 +53,10 @@ test-runner:run() {
     done
 
     local run_flags=()
-    if [ "${opts[-O]:-}" ]; then
+
+    if [ "${opts[-h]:-}" -o "${opts[--help]:-}" ]; then
+        run_flags=(-v)
+    elif [ "${opts[-O]:-}" ]; then
         if [ ${#args[@]} -gt 1 ]; then
             run_flags=(-O "${args[1]}")
 
