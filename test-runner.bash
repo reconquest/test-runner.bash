@@ -78,18 +78,14 @@ test-runner:run() {
     (
         import github.com/reconquest/tests.sh
 
+        tests:progress() {
+            test-runner:progress "${@}"
+        }
+
+
         if [ "${opts[-v]:-}" ]; then
             tests:set-verbose "${opts[-v]}"
         fi
-
-        ( tail -f $_tests_one_stdout $_tests_one_stderr 2>/dev/null \
-            | grep --line-buffered -oiP 'evaluating|testcase|assertion' \
-            | stdbuf -i0 -o0 tr '[:upper:]' '[:lower:]' \
-            | test-runner:progress ) &
-
-        _test_runner_progress_pid=$!
-
-        trap "kill $_test_runner_progress_pid" EXIT
 
         tests:main \
             -a \
@@ -97,7 +93,5 @@ test-runner:run() {
             -s "$_test_runner_local_setup" \
             -t "$_test_runner_local_teardown" \
             "${run_flags[@]}"
-
-        kill $_test_runner_progress_pid 2>/dev/null
     )
 }
