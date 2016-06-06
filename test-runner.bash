@@ -20,7 +20,7 @@ test-runner:handle-args() {
 }
 
 test-runner:progress() {
-    :
+    cat >/dev/null
 }
 
 test-runner:set-custom-opts() {
