@@ -1,7 +1,9 @@
-_base_dir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-source $_base_dir/vendor/github.com/reconquest/import.bash/import.bash
+if ! declare -f import:source &>/dev/null; then
+    _base_dir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+    source $_base_dir/vendor/github.com/reconquest/import.bash/import.bash
+fi
 
-import github.com/reconquest/opts
+import:source "github.com/reconquest/opts.bash"
 
 
 _test_runner_local_setup=tests/setup.sh
