@@ -78,7 +78,7 @@ test-runner:run() {
 
     test-runner:handle-args "${args[@]:-}"
     (
-        import github.com/reconquest/tests.sh
+        import:source github.com/reconquest/tests.sh
 
         tests:progress() {
             test-runner:progress "${@}"
