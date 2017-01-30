@@ -3,7 +3,7 @@ if ! declare -f import:source &>/dev/null; then
     source $_base_dir/vendor/github.com/reconquest/import.bash/import.bash
 fi
 
-import:source "github.com/reconquest/opts.bash"
+import:use "github.com/reconquest/opts.bash"
 
 
 _test_runner_local_setup=tests/setup.sh
