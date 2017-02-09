@@ -1,4 +1,4 @@
-if ! declare -f import:source &>/dev/null; then
+if ! declare -f import:use &>/dev/null; then
     _base_dir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
     source $_base_dir/vendor/github.com/reconquest/import.bash/import.bash
 fi
@@ -78,7 +78,7 @@ test-runner:run() {
 
     test-runner:handle-args "${args[@]:-}"
     (
-        import:source github.com/reconquest/tests.sh
+        import:use github.com/reconquest/tests.sh
 
         tests:progress() {
             test-runner:progress "${@}"
