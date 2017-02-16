@@ -1,5 +1,13 @@
 if ! declare -f import:use &>/dev/null; then
     _base_dir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+
+    if [ ! -f $_base_dir/vendor/github.com/reconquest/import.bash/import.bash ]; then
+        (
+            cd "$_base_dir"
+            git submodule update --init
+        )
+    fi
+
     source $_base_dir/vendor/github.com/reconquest/import.bash/import.bash
 fi
 
